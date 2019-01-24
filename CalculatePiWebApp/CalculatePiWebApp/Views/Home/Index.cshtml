@@ -1,0 +1,50 @@
+﻿@model CalculatePiWebApp.Models.CalculatePiModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1 class="text-center">Calculate Pi</h1>
+<p class="text-center">This application calculates the value of Pi using Monte Carlo method.</p>
+<form method="post">
+    <input type="number" name="points" min="1" placeholder="Enter number of points" required />
+    <button type="submit">Calculate</button>
+</form>
+<hr />
+<div class="row">
+    <div class="col-sm-6 text-center" id="distribution">
+        <h2>Point Distribution</h2>
+        @{
+            <svg width="@Model.Chart.Width" height="@Model.Chart.Height" style="border: 1px solid black">
+                @for (int j = 0; j < Model.Points.Length; j++) {
+                    <circle cx="@(Model.Points[j].PointVector.X * Model.Chart.Width)" cy="@((1 - Model.Points[j].PointVector.Y) * Model.Chart.Height)" r="@Model.Chart.PointSize"
+                            stroke="@Model.Points[j].PointColor" stroke-width="@Model.Chart.PointSize" fill="@Model.Points[j].PointColor"></circle>
+                }
+            </svg>
+        }
+    </div>
+    <div class="col-sm-6 text-center" id="result">
+        <h2>Result</h2>
+        <table class="table table-bordered">
+            <tr>
+                <td>Number of Points</td>
+                <td>@Model.NumberOfPoints</td>
+            </tr>
+            <tr>
+                <td>Points in Range</td>
+                <td>@Model.PointsInRange</td>
+            </tr>
+            <tr>
+                <td>Calculated Value</td>
+                <td>@Model.CalculatedValue.ToString("f4")</td>
+            </tr>
+            <tr>
+                <td>Pre-Defined Value</td>
+                <td>@Math.PI.ToString("f4")</td>
+            </tr>
+            <tr>
+                <td>Percent Error</td>
+                <td>@Model.PercentError.ToString("f4")%</td>
+            </tr>
+        </table>
+    </div>
+</div>
